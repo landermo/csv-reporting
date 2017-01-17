@@ -20,7 +20,7 @@ def pilot_per_planet(planet)
     'Amy'
     elsif planet == 'Uranus'
     'Bender'
-  else planet
+  else
     'Leela'
     end
   end
@@ -30,6 +30,7 @@ revenue = Hash.new(0)
 revenue_per_pilot = Hash.new(0)
 bonus_per_pilot = Hash.new(0)
 destination_counts = Hash.new(0)
+destination_per_pilot = Hash.new(0)
 
 CSV.foreach('/Users/lmontgomery/RubymineProjects/csv-reporting/planet_express_logs.csv', headers: true) do |row|
   # puts row.inspect
@@ -45,6 +46,7 @@ CSV.foreach('/Users/lmontgomery/RubymineProjects/csv-reporting/planet_express_lo
   revenue_per_pilot[pilot] += money_this_week
   revenue[planet] += money_this_week
   bonus_per_pilot[pilot] += bonus
+  destination_per_pilot[pilot] = new_count
 
 end
 
@@ -53,5 +55,6 @@ puts "Bonus per pilot: #{bonus_per_pilot}"
 puts "Revenue per pilot: #{revenue_per_pilot}"
 puts "Total revenue is #{revenue}"
 puts "Destination counts #{destination_counts}"
+puts "Number of trips each employee took: #{destination_per_pilot}"
 
 
