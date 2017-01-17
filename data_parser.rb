@@ -33,11 +33,10 @@ def pilot_for_planet(planet)
    end
   end
 
-
-
-
+deliveries = []
 CSV.foreach('/Users/lmontgomery/RubymineProjects/csv-reporting/planet_express_logs.csv', headers: true) do |row|
   # puts row.inspect
+
 
   money_this_week = row['Crates'].to_f * row['Money'].to_f
   bonus = money_this_week * 0.05
@@ -49,14 +48,17 @@ CSV.foreach('/Users/lmontgomery/RubymineProjects/csv-reporting/planet_express_lo
   current_count = destination_counts[planet]
   new_count = current_count + 1
   destination_counts[planet] = new_count
+
 end
 
 # CSV.open(temp, "w") do |temp_csv|
-#   CSV.foreach('/Users/lmontgomery/RubymineProjects/csv-reporting/planet_express_logs.csv') do |orig|
-#     temp_csv << orig + [revenue] + [bonus]
-#   end
-# end
+#    CSV.foreach('/Users/lmontgomery/RubymineProjects/csv-reporting/planet_express_logs.csv') do |orig|
+#      temp_csv << orig + revenue + bonus
+#    end
+#  end
+
 puts ' '
 puts "Total revenue is #{revenue}"
 puts "Destination counts #{destination_counts}"
+puts deliveries
 
