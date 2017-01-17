@@ -48,10 +48,10 @@ CSV.foreach('/Users/lmontgomery/RubymineProjects/csv-reporting/planet_express_lo
 
 end
 
-puts ' '
+
 puts "Bonus per pilot: #{bonus_per_pilot}"
 puts "Revenue per pilot: #{revenue_per_pilot}"
 puts "Total revenue is #{revenue}"
 puts "Destination counts #{destination_counts}"
-puts
+
 
