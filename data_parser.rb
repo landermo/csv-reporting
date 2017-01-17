@@ -13,52 +13,45 @@
 require 'csv'
 require 'tempfile'
 
-temp = Tempfile.new("csv")
-revenue = 0
-bonus = 0
-bonus_per_person = {'Fry' => 0, 'Amy' => 0, 'Bender' => 0, 'Leela' => 0}
-destination_counts = {'Earth' => 0, 'Moon' => 0, 'Mars' => 0, 'Uranus' => 0, 'Jupiter' => 0, 'Pluto' => 0, 'Saturn' => 0, 'Mercury' => 0}
-
-
-def pilot_for_planet(planet)
+def pilot_per_planet(planet)
   if planet == 'Earth'
-  pilot = 'Fry'
-  if planet == 'Mars'
-  pilot = 'Amy'
-  if planet == 'Uranus'
-  pilot = 'Bender'
-    else pilot = 'Leela'
+    'Fry'
+  elsif planet == 'Mars'
+    'Amy'
+    elsif planet == 'Uranus'
+    'Bender'
+  else planet
+    'Leela'
     end
-    end
-   end
   end
 
-deliveries = []
+
+revenue = Hash.new(0)
+revenue_per_pilot = Hash.new(0)
+bonus_per_pilot = Hash.new(0)
+destination_counts = Hash.new(0)
+
 CSV.foreach('/Users/lmontgomery/RubymineProjects/csv-reporting/planet_express_logs.csv', headers: true) do |row|
   # puts row.inspect
 
-
-  money_this_week = row['Crates'].to_f * row['Money'].to_f
-  bonus = money_this_week * 0.05
-
-  puts "Money this week: #{row['Destination']} #{money_this_week}: Bonus: #{bonus}"
-  revenue += money_this_week
-
   planet = row['Destination']
+  money_this_week = row['Crates'].to_i * row['Money'].to_i
+  bonus = money_this_week * 0.05
   current_count = destination_counts[planet]
   new_count = current_count + 1
   destination_counts[planet] = new_count
 
+  pilot = pilot_per_planet(planet)
+  revenue_per_pilot[pilot] += money_this_week
+  revenue[planet] += money_this_week
+  bonus_per_pilot[pilot] += bonus
+
 end
 
-# CSV.open(temp, "w") do |temp_csv|
-#    CSV.foreach('/Users/lmontgomery/RubymineProjects/csv-reporting/planet_express_logs.csv') do |orig|
-#      temp_csv << orig + revenue + bonus
-#    end
-#  end
-
 puts ' '
+puts "Bonus per pilot: #{bonus_per_pilot}"
+puts "Revenue per pilot: #{revenue_per_pilot}"
 puts "Total revenue is #{revenue}"
 puts "Destination counts #{destination_counts}"
-puts deliveries
+puts
 
